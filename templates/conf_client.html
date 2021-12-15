@@ -1,0 +1,135 @@
+{% extends "layout.html" %}
+{% block body %}
+{% with messages = get_flashed_messages() %} {% if messages %} {% for message in
+messages %}
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="btn btn-block btn-default" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %} {% endif %} {% endwith %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">{{ titulo }}</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+<div class="card card-danger">
+    <div class="card-header">
+        <h3 class="card-title">Configuracion Inicial</h3>
+    </div>
+    <div class="card-body">
+        <form action="/confclient" method="post">
+            <!-- IP mask -->
+            <div class="row">
+                <div class="col-md-4 offset-md-4">
+                    <div class="form-group">
+                        <label>Direccion IP del servidor:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                            </div>
+                            <input type="text" name="ipserver" class="form-control" data-inputmask="'alias': 'ip'"
+                                data-mask>
+
+                        </div>
+                        <div class="form-group">
+                            <label>Origen</label>
+                            <input type="text" name="origen" class="form-control" placeholder="Ingrese el nombre de Origen">
+                        </div>
+                        <div class="form-group">
+                            <label>Destino</label>
+                            <input type="text" name="destino" class="form-control" placeholder="Ingrese el nombre de Destino">
+                        </div>
+                        <div class="form-group">
+                            <label>Frecuencia</label>
+                            <input type="text" name="frecuencia" class="form-control" placeholder="Frecuencia en segundos">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 offset-md-4">
+                    <div class="form-group">
+                        <label>Modo de Trabajo</label>
+                        <select class="custom-select" name="modo">
+                            <option>TCP</option>
+                            <option>UDP</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2 offset-md-4">
+                    <div class="form-group">
+                        <label>Tamaño del Frame:</label>
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="customCheckbox1" value="64" name="check1">
+                            <label for="customCheckbox1" class="custom-control-label">64</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="customCheckbox2" value="128" name="check2">
+                            <label for="customCheckbox2" class="custom-control-label">128</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="customCheckbox3" value="256" name="check3">
+                            <label for="customCheckbox3" class="custom-control-label">256</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="customCheckbox4" value="512" name="check4">
+                            <label for="customCheckbox4" class="custom-control-label">512</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label> </label>
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="customCheckbox5" value="768" name="check5">
+                            <label for="customCheckbox5" class="custom-control-label">768</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="customCheckbox6" value="1024" name="check6">
+                            <label for="customCheckbox6" class="custom-control-label">1024</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="customCheckbox7" value="1280" name="check7">
+                            <label for="customCheckbox7" class="custom-control-label">1280</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="customCheckbox8" value="1518" name="check8">
+                            <label for="customCheckbox8" class="custom-control-label">1518</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 offset-md-4">
+                <div class="form-group">
+                    <label>Ancho de banda maximo</label>
+                    <select class="custom-select" name="BW">
+                        <option>10</option>
+                        <option>100</option>
+                        <option>1000</option>
+                    </select>
+                    <label>Mbits/sec</label>
+                </div>
+            </div>
+            <!-- /.form group -->
+            <!-- /.card-body -->
+            <div class="col-md-4 offset-md-4">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-block btn-primary">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- /.card -->
+{% endblock %}

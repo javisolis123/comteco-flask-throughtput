@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block body %}
+{% with messages = get_flashed_messages() %} {% if messages %} {% for message in
+messages %}
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="btn btn-block btn-default" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %} {% endif %} {% endwith %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">{{ titulo }}</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <div class="card card-danger">
+        <div class="card-header">
+            <h3 class="card-title">Lista de pruebas realizadas</h3>
+        </div>
+        <div class="card-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ORIGEN</th>
+                        <th>DESTINO</th>
+                        <th>TIPO</th>
+                        <th>BW</th>
+                        <th>FECHA</th>
+                        <th>HORA</th>
+                        <th>OPCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for registro in registros %}
+                        <tr>
+                            <td>{{ registro.id }}</td>
+                            <td>{{ registro.origen }}</td>
+                            <td>{{ registro.destino }}</td>
+                            <td>{{ registro.modo }}</td>
+                            <td>{{ registro.bit_recibidos }}</td>
+                            <td>{{ registro.fecha }}</td>
+                            <td>{{ registro.tiempo }}</td>
+                            <td>
+                                <a href="/mostrar/{{registro.id}}" class="btn btn-warning">Mas Info</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+    {% endblock %}
