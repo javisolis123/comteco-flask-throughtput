@@ -36,20 +36,20 @@ messages %}
                                 <span class="input-group-text"><i class="fas fa-laptop"></i></span>
                             </div>
                             <input type="text" name="ipserver" class="form-control" data-inputmask="'alias': 'ip'"
-                                data-mask>
+                                data-mask value="{{ data.ip_server }}">
 
                         </div>
                         <div class="form-group">
                             <label>Origen</label>
-                            <input type="text" name="origen" class="form-control" placeholder="Ingrese el nombre de Origen">
+                            <input type="text" name="origen" class="form-control" placeholder="Ingrese el nombre de Origen" value="{{ data.origen }}">
                         </div>
                         <div class="form-group">
                             <label>Destino</label>
-                            <input type="text" name="destino" class="form-control" placeholder="Ingrese el nombre de Destino">
+                            <input type="text" name="destino" class="form-control" placeholder="Ingrese el nombre de Destino" value="{{ data.destino }}">
                         </div>
                         <div class="form-group">
                             <label>Frecuencia</label>
-                            <input type="text" name="frecuencia" class="form-control" placeholder="Frecuencia en segundos">
+                            <input type="text" name="frecuencia" class="form-control" placeholder="Frecuencia en segundos" value="{{ data.frecuencia }}">
                         </div>
                         <!-- /.input group -->
                     </div>
@@ -60,8 +60,13 @@ messages %}
                     <div class="form-group">
                         <label>Modo de Trabajo</label>
                         <select class="custom-select" name="modo">
-                            <option>TCP</option>
-                            <option>UDP</option>
+                            {% if data.modo == 'TCP' %}
+                                <option selected>TCP</option>
+                                <option>UDP</option>
+                            {% else %}
+                                <option>TCP</option>
+                                <option selected>UDP</option>
+                            {% endif %}
                         </select>
                     </div>
                 </div>
@@ -71,7 +76,7 @@ messages %}
                     <div class="form-group">
                         <label>Tamaño del Frame:</label>
                         <div class="custom-control custom-checkbox">
-                            <input class="custom-control-input" type="checkbox" id="customCheckbox1" value="64" name="check1">
+                            <input class="custom-control-input" type="checkbox" id="customCheckbox1" value="64" name="check1" >
                             <label for="customCheckbox1" class="custom-control-label">64</label>
                         </div>
                         <div class="custom-control custom-checkbox">

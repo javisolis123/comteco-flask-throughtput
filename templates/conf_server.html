@@ -40,7 +40,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-laptop"></i></span>
                             </div>
-                            <input type="text" name="ip" class="form-control" data-inputmask="'alias': 'ip'" data-mask>
+                            <input type="text" name="ip" class="form-control" data-inputmask="'alias': 'ip'" data-mask value="{{ data.ip }}">
                         </div>
                         <!-- /.input group -->
                     </div>
@@ -51,7 +51,7 @@
                                 <span class="input-group-text"><i class="fas fa-mask"></i></span>
                             </div>
                             <input type="text" name="mask" class="form-control" data-inputmask="'alias': 'ip'"
-                                data-mask>
+                                data-mask value="{{ data.mask }}">
                         </div>
                         <!-- /.input group -->
                     </div>
@@ -62,7 +62,7 @@
                                 <span class="input-group-text"><i class="fas fa-dungeon"></i></span>
                             </div>
                             <input type="text" name="gateway" class="form-control" data-inputmask="'alias': 'ip'"
-                                data-mask>
+                                data-mask value="{{ data.gateway }}">
                         </div>
                         <!-- /.input group -->
                     </div>

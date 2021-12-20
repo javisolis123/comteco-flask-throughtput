@@ -1,0 +1,295 @@
+{% extends "layout.html" %}
+{% block body %}
+{% with messages = get_flashed_messages() %} {% if messages %} {% for message in
+messages %}
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="btn btn-block btn-default" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %} {% endif %} {% endwith %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">{{ titulo }}</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <div class="card card-danger">
+        <div class="card-header">
+            <h3 class="card-title">Ultima Prueba</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>
+                        <p class="text-center">REPORTE DE ANCHO DE BANDA</p>
+                    </h1>
+                    <br>
+                </div>
+                <div class="col-md-4">
+
+                    <h6>
+                        <p>Origen: <strong>{{ reg.origen }}</strong></p>
+                        <p>Destino: <strong>{{ reg.destino }}</strong></p>
+                        <p>IP Servidor <strong>{{ reg.ip_server }}</strong></p>
+                        <p>Tipo de Prueba <strong>{{ reg.modo }}</strong></p>
+                    </h6>
+
+                </div>
+                <div class="col-md-4">
+
+                    <h6>
+                        <p class="text-left">Repeticiones: <strong>{{ reg.frecuencia }}</strong></p>
+                        <p class="text-left">Hora: <strong>{{ reg.tiempo }}</strong></p>
+                        <p class="text-left">Fecha <strong>{{ reg.fecha }}</strong></p>
+                    </h6>
+
+                </div>
+                <hr />
+            </div>
+            <div class="row">
+                {% if reg.modo == 'TCP' %}
+                <div class="col-md-6">
+                    <figure class="highcharts-figure">
+                        <div id="container1"></div>
+                    </figure>
+                </div>
+                <div class="col-md-6">
+                    <figure class="highcharts-figure">
+                        <div id="container"></div>
+                    </figure>
+                </div>
+                {% else %}
+                <div class="col-md-4">
+                    <figure class="highcharts-figure">
+                        <div id="container1"></div>
+                        
+                    </figure>
+                </div>
+                <div class="col-md-4">
+                    <figure class="highcharts-figure">
+                        <div id="container"></div>
+                        
+                    </figure>
+                </div>
+                <div class="col-md-4">
+                    <figure class="highcharts-figure">
+                        <div id="container2"></div>
+                       
+                    </figure>
+                </div>
+                {% endif %}
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>{{ reg.bit_enviados }}<sup style="font-size: 20px">Mb</sup></h3>
+
+                            <p>Paquetes enviados</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-4 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>{{ reg.bit_recibidos }}<sup style="font-size: 20px">Mb</sup></h3>
+
+                            <p>Paquetes Recibidos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-share"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-4 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>{{ lost }}<sup style="font-size: 20px">Mb</sup></h3>
+
+                            <p>Paquetes Perdidos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-ghost"></i>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+    <script type="text/javascript">
+        Highcharts.chart('container1', {
+
+            title: {
+                text: 'Ancho de banda por segundo'
+            },
+
+            subtitle: {
+                text: 'Mbps'
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Ancho de Banda [Mbps]'
+                }
+            },
+
+            xAxis: {
+                accessibility: {
+                    rangeDescription: 'Range: 2010 to 2011'
+                }
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    },
+                    pointStart: 2010
+                }
+            },
+
+            series: [{
+                name: '{{ reg.origen }}',
+                data: {{ datos }}
+            }],
+
+            responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+
+        });
+    </script>
+    <script type="text/javascript">
+        Highcharts.chart('container', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Paquetes enviados Vs Paquetes perdidos'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            accessibility: {
+                point: {
+                    valueSuffix: '%'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    }
+                }
+            },
+            series: [{
+                name: 'Brands',
+                colorByPoint: true,
+                data: [{
+                    name: 'Paquetes Recibidos',
+                    y: {{ recibidos }},
+                sliced: true,
+                selected: true
+                }, {
+            name: 'Paquetes Perdidos',
+            y: {{ perdidos }}
+                }]
+            }]
+        });
+    </script>
+    <script type="text/javascript">
+        Highcharts.chart('container2', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Monthly Average Rainfall'
+            },
+            subtitle: {
+                text: 'Source: WorldClimate.com'
+            },
+            xAxis: {
+                categories: [
+                    '{{ datos1[0] }}Kb',
+                    '{{ datos1[1] }}Kb',
+                    '{{ datos1[2] }}Kb',
+                    '{{ datos1[3] }}Kb',
+                    '{{ datos1[4] }}Kb',
+                    '{{ datos1[5] }}Kb',
+                    '{{ datos1[6] }}Kb',
+                    '{{ datos1[7] }}Kb',
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Rainfall (mm)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Ancho de Banda default',
+                data: [{{ bw }}, {{ bw }}, {{ bw }}, {{ bw }}, {{ bw }}, {{ bw }}, {{ bw }}, {{ bw }}]
+        
+            }, {
+                name: 'Tamaños de Frame',
+                data: [{{ reg.k64 }}, {{ reg.k128 }}, {{ reg.k256 }}, {{ reg.k512 }}, {{ reg.k768 }}, {{ reg.k1024 }}, {{ reg.k1280 }}, {{ reg.k1518 }}]
+            }]
+        });
+    </script>
+    {% endblock %}

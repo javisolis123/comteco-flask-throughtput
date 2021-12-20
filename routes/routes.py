@@ -28,10 +28,10 @@ def obtener_datos(file, frec):
     archivo.close()
     return bitrate, enviados_bitrate, recibidos_bitrate
         
-def eliminar_caracteres(lista):
-    caracteres = "[] "
-    for x in range(len(caracteres)):
-        lista = lista.replace(caracteres[x], "")
+def eliminar_caracteres(lista, caracter):
+    #caracteres = "[] "
+    for x in range(len(caracter)):
+        lista = lista.replace(caracter[x], "")
     return lista
 
 
@@ -43,6 +43,7 @@ def index():
 
 @rutas.route('/confserver', methods = ['GET', 'POST'])
 def config_server():
+    datos = Network.query.filter_by(id=1).first()
     if request.method == "POST":
         network = Network.query.filter_by(id=1).first()
         network.ip = request.form['ip']
@@ -55,7 +56,7 @@ def config_server():
         os.system("sudo ifconfig eth1 up")
         flash('Se actualizo la IP satisfactoriamente')
         return redirect(url_for('rutas.config_server'))
-    return render_template("conf_server.html", titulo = "Configuracion del Servidor")
+    return render_template("conf_server.html", titulo = "Configuracion del Servidor", data = datos)
 
 @rutas.route('/startserver', methods = ['GET', 'POST'])
 def start_server():
@@ -72,6 +73,7 @@ def start_server():
 @rutas.route('/confclient', methods = ['GET', 'POST'])
 def conf_client():
     size = [64,128,256,512,768,1024,1280,1518]
+    datos = conf_cliente.query.filter_by(id=1).first()
     if request.method == "POST":
         conf = conf_cliente.query.filter_by(id=1).first()
         conf.origen = request.form['origen']
@@ -103,12 +105,12 @@ def conf_client():
             if len(size) == 0:
                 conf.frame_size = "0"
             else:
-                tamanos = eliminar_caracteres(tams)
+                tamanos = eliminar_caracteres(tams,'[]')
                 conf.frame_size = tamanos
             conf.ancho_banda = request.form['BW']
         db.session.commit()
         return redirect(url_for('rutas.conf_client'))
-    return render_template("conf_client.html", titulo = "Configuracion Cliente")
+    return render_template("conf_client.html", titulo = "Configuracion Cliente", data = datos)
 
 @rutas.route('/startclient', methods = ['GET', 'POST'])
 def start_client():
@@ -132,15 +134,16 @@ def start_client():
                 final = comando + conf.ip_server + " -t " + str(conf.frecuencia) + " > log.txt"
                 os.system(final)
                 bitrate, enviados_bitrate, recibidos_bitrate = obtener_datos("log.txt", int(conf.frecuencia))
-                nuevo_bitrate = eliminar_caracteres(str(bitrate))
+                nuevo_bitrate = eliminar_caracteres(str(bitrate), '[]')
                 new_entry = registrp(conf.origen, conf.destino, conf.ip_server, conf.frecuencia, conf.modo, "0", "0", "0", "0", "0", "0", "0", "0", nuevo_bitrate, enviados_bitrate, recibidos_bitrate, time.strftime("%H:%M:%S", ), time.strftime("%Y/%m/%d"))
             else:
                 lista_aux = conf.frame_size
+                lista_aux = eliminar_caracteres(lista_aux, ' ')
                 if lista_aux == "0":
                     comando_final = comando + conf.ip_server + " -u" + " -b " + str(conf.ancho_banda) + "M" +" -t " + str(conf.frecuencia) + " > log.txt"
                     os.system(comando_final)
                     bitrate, enviados_bitrate, recibidos_bitrate = obtener_datos("log.txt", int(conf.frecuencia))
-                    nuevo_bitrate = eliminar_caracteres(str(bitrate))
+                    nuevo_bitrate = eliminar_caracteres(str(bitrate), '[]')
                     new_entry = registrp(conf.origen, conf.destino, conf.ip_server, conf.frecuencia, conf.modo, "0", "0", "0", "0", "0", "0", "0", "0", nuevo_bitrate, enviados_bitrate, recibidos_bitrate, time.strftime("%H:%M:%S", ), time.strftime("%Y/%m/%d"))       
                 else:
                     lista_final = list(lista_aux.split(","))
@@ -164,11 +167,13 @@ def start_client():
                             aux1280 = recibidos_bitrate
                         if item == "1518":
                             aux1518 = recibidos_bitrate
-                    nuevo_bitrate = eliminar_caracteres(str(bitrate))
+                        print("Ejecutando el tamaño de trama: " + str(item))
+                    nuevo_bitrate = eliminar_caracteres(str(bitrate), '[]')
+                    print(aux64 + aux128 + aux256 + aux512 + aux768 + aux1024 + aux1280 + aux1518)
                     new_entry = registrp(conf.origen, conf.destino, conf.ip_server, conf.frecuencia, conf.modo, aux64, aux128, aux256, aux512, aux768, aux1024, aux1280, aux1518, nuevo_bitrate, enviados_bitrate, recibidos_bitrate, time.strftime("%H:%M:%S", ), time.strftime("%Y/%m/%d"))
-        db.session.add(new_entry)
-        db.session.commit()   
-        return redirect(url_for('rutas.start_client'))
+                    db.session.add(new_entry)
+                    db.session.commit()   
+        return render_template("start_client.html", titulo = "Iniciar Cliente")
     return render_template("start_client.html", titulo = "Iniciar Cliente")
 
 @rutas.route('/speedtest', methods = ['GET', 'POST'])
@@ -204,3 +209,64 @@ def resultado_speedtest():
 def listar():
     registros = registrp.query.all()
     return render_template("listar.html", titulo = "Listar", registros = registros)
+
+@rutas.route('/ultimotest')
+def mostrar_test():
+    aux = conf_cliente.query.filter_by(id=1).first()
+    aux1= str(aux.ancho_banda)
+    size1 = ['64','128','256','512','768','1024','1280','1518']
+    cont = 0
+    lista = []
+    registros = registrp.query.all()
+    for registro in registros:
+        cont += 1
+    troughtput = registros[cont - 1].bitrate
+    troughtput = eliminar_caracteres(troughtput, "'")
+    troughtput = troughtput.split(',')
+    for aux in troughtput:
+        lista.append(float(aux))
+    bitRecibido = registros[cont - 1].bit_recibidos
+    bitEnviado = registros[cont - 1].bit_enviados
+    perdidos = float(bitEnviado) - float(bitRecibido)
+    por_recibidos = (float(bitRecibido) * 100) / float(bitEnviado)
+    por_perdidos = (perdidos * 100) / float(bitEnviado)
+    return render_template("mostrar_test.html",
+                            titulo = "Ultimo Test",
+                            reg = registros[cont - 1],
+                            datos = lista,
+                            recibidos = por_recibidos,
+                            perdidos = por_perdidos,
+                            datos1 = size1,
+                            bw = aux1,
+                            lost = perdidos)
+
+@rutas.route('/reporte/<string:id>')
+def mostrar(id):
+    registro = registrp.query.get(id)
+    aux = conf_cliente.query.filter_by(id=1).first()
+    aux1= str(aux.ancho_banda)
+    size1 = ['64','128','256','512','768','1024','1280','1518']
+    cont = 0
+    lista = []
+    registros = registrp.query.all()
+    for registra in registros:
+        cont += 1
+    troughtput = registros[cont - 1].bitrate
+    troughtput = eliminar_caracteres(troughtput, "'")
+    troughtput = troughtput.split(',')
+    for aux in troughtput:
+        lista.append(float(aux))
+    bitRecibido = registros[cont - 1].bit_recibidos
+    bitEnviado = registros[cont - 1].bit_enviados
+    perdidos = float(bitEnviado) - float(bitRecibido)
+    por_recibidos = (float(bitRecibido) * 100) / float(bitEnviado)
+    por_perdidos = (perdidos * 100) / float(bitEnviado)
+    return render_template("mostrar_test.html",
+                            titulo = "Ultimo Test",
+                            reg = registro,
+                            datos = lista,
+                            recibidos = por_recibidos,
+                            perdidos = por_perdidos,
+                            datos1 = size1,
+                            bw = aux1,
+                            lost = perdidos)

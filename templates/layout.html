@@ -7,14 +7,16 @@
     <title>COMTECO R.L.</title>
 
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{url_for('static', filename='plugins/fontawesome-free/css/all.min.css')}}">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Tempusdominus Bootstrap 4 -->
-    <link rel="stylesheet" href="{{url_for('static', filename='plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+    <link rel="stylesheet"
+        href="{{url_for('static', filename='plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
     <!-- iCheck -->
     <link rel="stylesheet" href="{{url_for('static', filename='plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <!-- JQVMap -->
@@ -22,33 +24,90 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{url_for('static', filename='dist/css/adminlte.min.css')}}">
     <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="{{url_for('static', filename='plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
+    <link rel="stylesheet"
+        href="{{url_for('static', filename='plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
     <!-- Daterange picker -->
     <link rel="stylesheet" href="{{url_for('static', filename='plugins/daterangepicker/daterangepicker.css')}}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{url_for('static', filename='plugins/summernote/summernote-bs4.min.css')}}">
     <!-- Bootstrap Color Picker -->
-    <link rel="stylesheet" href="{{url_for('static', filename='plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}">
+    <link rel="stylesheet"
+        href="{{url_for('static', filename='plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}">
     <!-- Select2 -->
     <link rel="stylesheet" href="{{url_for('static', filename='plugins/select2/css/select2.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+    <link rel="stylesheet"
+        href="{{url_for('static', filename='plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
     <!-- Bootstrap4 Duallistbox -->
-    <link rel="stylesheet" href="{{url_for('static', filename='plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css')}}">
+    <link rel="stylesheet"
+        href="{{url_for('static', filename='plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css')}}">
     <!-- BS Stepper -->
     <link rel="stylesheet" href="{{url_for('static', filename='plugins/bs-stepper/css/bs-stepper.min.css')}}">
     <!-- dropzonejs -->
     <link rel="stylesheet" href="{{url_for('static', filename='plugins/dropzone/min/dropzone.min.css')}}">
     <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="{{url_for('static', filename='plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
+    <link rel="stylesheet"
+        href="{{url_for('static', filename='plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{url_for('static', filename='plugins/toastr/toastr.min.css')}}">
     <!-- DataTables -->
-    <link rel="stylesheet" href="{{url_for('static', filename='plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+    <link rel="stylesheet"
+        href="{{url_for('static', filename='plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet"
+        href="{{url_for('static', filename='plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet"
+        href="{{url_for('static', filename='plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+    <style type="text/css">
+        .highcharts-figure,
+        .highcharts-data-table table {
+            min-width: 360px;
+            max-width: 800px;
+            margin: 1em auto;
+        }
+
+        .highcharts-data-table table {
+            font-family: Verdana, sans-serif;
+            border-collapse: collapse;
+            border: 1px solid #ebebeb;
+            margin: 10px auto;
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .highcharts-data-table caption {
+            padding: 1em 0;
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        .highcharts-data-table th {
+            font-weight: 600;
+            padding: 0.5em;
+        }
+
+        .highcharts-data-table td,
+        .highcharts-data-table th,
+        .highcharts-data-table caption {
+            padding: 0.5em;
+        }
+
+        .highcharts-data-table thead tr,
+        .highcharts-data-table tr:nth-child(even) {
+            background: #f8f8f8;
+        }
+
+        .highcharts-data-table tr:hover {
+            background: #f1f7ff;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
+    <script src="{{url_for('static', filename='plugins/grafico/code/highcharts.js')}}"></script>
+    <script src="{{url_for('static', filename='plugins/grafico/code/modules/series-label.js')}}"></script>
+    <script src="{{url_for('static', filename='plugins/grafico/code/modules/exporting.js')}}"></script>
+    <script src="{{url_for('static', filename='plugins/grafico/code/modules/export-data.js')}}"></script>
+    <script src="{{url_for('static', filename='plugins/grafico/code/modules/accessibility.js')}}"></script>
     <div class="wrapper">
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
@@ -159,7 +218,7 @@
     <!-- /.sidebar -->
     </aside>
     {% block body %}
-    
+
     {% endblock %}
     </div>
     <!-- /.content-wrapper -->
@@ -237,8 +296,10 @@
     <!-- DataTables  & Plugins -->
     <script src="{{url_for('static', filename='plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{url_for('static', filename='plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{url_for('static', filename='plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{url_for('static', filename='plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script
+        src="{{url_for('static', filename='plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script
+        src="{{url_for('static', filename='plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
     <script src="{{url_for('static', filename='plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
     <script src="{{url_for('static', filename='plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
     <script src="{{url_for('static', filename='plugins/jszip/jszip.min.js')}}"></script>
@@ -250,19 +311,19 @@
     <!-- Page specific script -->
     <script>
         $(function () {
-          $("#example1").DataTable({
-            "responsive": true, "lengthChange": false, "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-          }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-          $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-          });
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
         });
     </script>
     <script>
@@ -402,6 +463,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
+
+    
 </body>
 
 </html>
