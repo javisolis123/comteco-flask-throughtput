@@ -44,19 +44,19 @@ space and a minimum Gigabit Ethernet connection.
 
 * 1.- Virtual Environment
 ```
-$ sudo apt install virtualenv
+sudo apt install virtualenv
 ```
 * 2.- Clone the repository
 ```
-$ git clone https://github.com/javisolis123/comteco-flask-throughtput.git
+git clone https://github.com/javisolis123/comteco-flask-throughtput.git
 ```
 * 3.- Open de repository
 ```
-$ cd comteco-flask-throughtput/
+cd comteco-flask-throughtput/
 ```
 * 4.- Activate the virtual environment
 ```
-$ source bin/activate
+source bin/activate
 ```
 * 5.- Execute de repository installation
 ```
