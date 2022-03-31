@@ -50,11 +50,17 @@ $ sudo apt install virtualenv
 ```
 $ git clone https://github.com/javisolis123/comteco-flask-throughtput.git
 ```
-* 3.- Execute de repository installation
+* 3.- Open de repository
+```
+$ cd comteco-flask-throughtput/
+```
+* 4.- Activate the virtual environment
+```
+$ source bin/activate
+```
+* 5.- Execute de repository installation
 ```
 pip install -r requirements.txt
 ```
-* 4.- Import de DataBase.
-* 5.- Enjoy It!.
-
-
+* 6.- Import de DataBase.
+* 7.- Enjoy It!.
